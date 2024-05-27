@@ -23,6 +23,6 @@ export const setCookieResponse = (
       options?: CookieOptions
 ) => {
       const expiryDate = new Date(Date.now() + oneWeek)
-      res.cookie(name, value, { ...options, expires: expiryDate, sameSite: 'none', path: '/', secure: true })
+      res.cookie(name, value, { ...options, expires: expiryDate, sameSite: 'none', secure: true })
       return expiryDate
 }
