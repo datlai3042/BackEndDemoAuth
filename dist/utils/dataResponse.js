@@ -18,7 +18,7 @@ const setCookieResponse = (res,
 name, value, options) => {
     const expiryDate = new Date(Date.now() + exports.oneWeek);
     const maxAge = 24 * 60 * 60 * 7;
-    res.cookie(name, value, { ...options, maxAge, sameSite: 'none', secure: true });
+    res.cookie(name, value, { ...options, maxAge: exports.oneWeek, sameSite: 'none', secure: true });
     return expiryDate;
 };
 exports.setCookieResponse = setCookieResponse;
