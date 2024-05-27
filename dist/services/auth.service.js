@@ -39,12 +39,12 @@ class AuthService {
         const createKey = await keyStore_model_1.default.findOneAndUpdate(modelKeyQuery, modelKeyUpdate, modelKeyOption);
         if (!createKey)
             throw new error_response_1.ResponseError({ metadata: 'Server không thể tạo model key' });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'client_id', createUser._id, { httpOnly: true });
-        const expireToken = (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.expriresAT, 'access_token', token.access_token, {
+        (0, dataResponse_1.setCookieResponse)(res, 'client_id', createUser._id, { httpOnly: true });
+        const expireToken = (0, dataResponse_1.setCookieResponse)(res, 'access_token', token.access_token, {
             httpOnly: true
         });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'isLogin', 'true');
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'refresh_token', token.refresh_token, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'isLogin', 'true');
+        (0, dataResponse_1.setCookieResponse)(res, 'refresh_token', token.refresh_token, { httpOnly: true });
         return {
             user: (0, dataResponse_1.omit)(createUser.toObject(), ['user_password']),
             token: { access_token: token.access_token, refresh_token: token.refresh_token, code_verify_token },
@@ -71,10 +71,10 @@ class AuthService {
         const keyStore = await keyStore_model_1.default.findOneAndUpdate(modelKeyQuery, modelKeyUpdate, modelKeyOption);
         if (!keyStore)
             throw new error_response_1.ResponseError({ metadata: 'Server không thể tạo model key' });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'client_id', foundUser._id, { httpOnly: true });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'refresh_token', refresh_token, { httpOnly: true });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'isLogin', 'true');
-        const expireToken = (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.expriresAT, 'access_token', access_token, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'client_id', foundUser._id, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'refresh_token', refresh_token, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'isLogin', 'true');
+        const expireToken = (0, dataResponse_1.setCookieResponse)(res, 'access_token', access_token, { httpOnly: true });
         return {
             user: (0, dataResponse_1.omit)(foundUser.toObject(), ['user_password']),
             token: { access_token, refresh_token, code_verify_token },
@@ -131,10 +131,10 @@ class AuthService {
         const keyModelOption = { new: true, upsert: true };
         const updateKeyModel = await keyStore_model_1.default.findOneAndUpdate(keyModelQuery, keyModelUpdate, keyModelOption);
         console.log({ key: updateKeyModel?.toObject() });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'refresh_token', new_refresh_token, { httpOnly: true });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'client_id', user._id, { httpOnly: true });
-        (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.oneWeek, 'code_verify_token', code_verify_token, { httpOnly: true });
-        const expireToken = (0, dataResponse_1.setCookieResponse)(res, dataResponse_1.expriresAT, 'access_token', access_token, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'refresh_token', new_refresh_token, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'client_id', user._id, { httpOnly: true });
+        (0, dataResponse_1.setCookieResponse)(res, 'code_verify_token', code_verify_token, { httpOnly: true });
+        const expireToken = (0, dataResponse_1.setCookieResponse)(res, 'access_token', access_token, { httpOnly: true });
         return {
             user: (0, dataResponse_1.omit)(user.toObject(), ['user_password']),
             token: { access_token, refresh_token: new_refresh_token, code_verify_token },

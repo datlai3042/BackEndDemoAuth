@@ -6,7 +6,7 @@ import keyStoreModel from '~/models/keyStore.model'
 import userModel, { UserDocument } from '~/models/user.model'
 import { Auth, HTTP, User } from '~/type'
 import { hassPassword } from '~/utils/bcrypt'
-import { expriresAT, omit, oneWeek, setCookieResponse } from '~/utils/dataResponse'
+import { expriresAT, omit, setCookieResponse } from '~/utils/dataResponse'
 import { getGoogleUser, getOautGoogleToken } from '~/utils/googleOAuth'
 import {
       createPayload,
@@ -57,13 +57,13 @@ class AuthService {
             const createKey = await keyStoreModel.findOneAndUpdate(modelKeyQuery, modelKeyUpdate, modelKeyOption)
             if (!createKey) throw new ResponseError({ metadata: 'Server không thể tạo model key' })
 
-            setCookieResponse(res, oneWeek, 'client_id', createUser._id as string, { httpOnly: true })
-            const expireToken = setCookieResponse(res, expriresAT, 'access_token', token.access_token, {
+            setCookieResponse(res, 'client_id', createUser._id as string, { httpOnly: true })
+            const expireToken = setCookieResponse(res, 'access_token', token.access_token, {
                   httpOnly: true
             })
-            setCookieResponse(res, oneWeek, 'isLogin', 'true')
+            setCookieResponse(res, 'isLogin', 'true')
 
-            setCookieResponse(res, oneWeek, 'refresh_token', token.refresh_token, { httpOnly: true })
+            setCookieResponse(res, 'refresh_token', token.refresh_token, { httpOnly: true })
 
             return {
                   user: omit(createUser.toObject(), ['user_password']),
@@ -101,12 +101,12 @@ class AuthService {
             const keyStore = await keyStoreModel.findOneAndUpdate(modelKeyQuery, modelKeyUpdate, modelKeyOption)
 
             if (!keyStore) throw new ResponseError({ metadata: 'Server không thể tạo model key' })
-            setCookieResponse(res, oneWeek, 'client_id', foundUser._id as string, { httpOnly: true })
+            setCookieResponse(res, 'client_id', foundUser._id as string, { httpOnly: true })
 
-            setCookieResponse(res, oneWeek, 'refresh_token', refresh_token, { httpOnly: true })
-            setCookieResponse(res, oneWeek, 'isLogin', 'true')
+            setCookieResponse(res, 'refresh_token', refresh_token, { httpOnly: true })
+            setCookieResponse(res, 'isLogin', 'true')
 
-            const expireToken = setCookieResponse(res, expriresAT, 'access_token', access_token, { httpOnly: true })
+            const expireToken = setCookieResponse(res, 'access_token', access_token, { httpOnly: true })
             return {
                   user: omit(foundUser.toObject(), ['user_password']),
                   token: { access_token, refresh_token, code_verify_token },
@@ -174,11 +174,11 @@ class AuthService {
             const updateKeyModel = await keyStoreModel.findOneAndUpdate(keyModelQuery, keyModelUpdate, keyModelOption)
             console.log({ key: updateKeyModel?.toObject() })
 
-            setCookieResponse(res, oneWeek, 'refresh_token', new_refresh_token, { httpOnly: true })
-            setCookieResponse(res, oneWeek, 'client_id', user._id as string, { httpOnly: true })
-            setCookieResponse(res, oneWeek, 'code_verify_token', code_verify_token, { httpOnly: true })
+            setCookieResponse(res, 'refresh_token', new_refresh_token, { httpOnly: true })
+            setCookieResponse(res, 'client_id', user._id as string, { httpOnly: true })
+            setCookieResponse(res, 'code_verify_token', code_verify_token, { httpOnly: true })
 
-            const expireToken = setCookieResponse(res, expriresAT, 'access_token', access_token, { httpOnly: true })
+            const expireToken = setCookieResponse(res, 'access_token', access_token, { httpOnly: true })
             return {
                   user: omit(user.toObject(), ['user_password']),
                   token: { access_token, refresh_token: new_refresh_token, code_verify_token },

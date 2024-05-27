@@ -12,10 +12,13 @@ const omit = (object, fields) => {
 };
 exports.omit = omit;
 exports.oneWeek = 7 * 24 * 60 * 60 * 1000; // 7 ngày tính bằng miligiây
-exports.expriresAT = 3 * 1000; // 7 ngày tính bằng miligiây
-const setCookieResponse = (res, expires = exports.oneWeek, name, value, options) => {
+exports.expriresAT = new Date(Date.now() + exports.oneWeek);
+const setCookieResponse = (res, 
+// expires: number = oneWeek,
+name, value, options) => {
     const expiryDate = new Date(Date.now() + exports.oneWeek);
-    res.cookie(name, value, { ...options, expires: expiryDate, sameSite: 'none', secure: true });
+    const maxAge = 24 * 60 * 60 * 7;
+    res.cookie(name, value, { ...options, maxAge, sameSite: 'none', secure: true });
     return expiryDate;
 };
 exports.setCookieResponse = setCookieResponse;
